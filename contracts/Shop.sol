@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.21 <0.7.0;
+pragma experimental ABIEncoderV2;
 
 contract Shop{
 
@@ -21,10 +22,19 @@ contract Shop{
     }
     //@dev temporary cart struct
     struct WineCart{
+
         uint wineid;
         uint wineprice;
     }
- 
+
+    //@dev temporary invoice struct
+    // struct Invoice{
+    //     uint invoiceid;
+    //     uint cartid;
+    //     uint discount;
+    //     uint total_price;
+    // }
+
     //Mapping -
     mapping (uint => WineList) public wines;
     mapping(address => WineCart[]) public cart;
@@ -33,7 +43,6 @@ contract Shop{
 
     //Variable definitions -
     uint public wineCount;
-    uint public cartitemCount;
     string public name;
     uint public price;
 
@@ -49,15 +58,42 @@ contract Shop{
         addWineItem("Casanova di Neri", "Brunello di Montalcino",1 wei,2000);
     }
 
+    function getWineCart( address _userAddress ) public  view  returns ( WineCart[] memory){
+            // WineCart memory newCartItem;
+
+            // newCartItem.wineid = _cart_item_id;
+            // newCartItem.wineprice = wines[_cart_item_id].vin_Price;
+
+            // subtotal[_userAddress] += newCartItem.wineprice;
+            // cart[_userAddress].push(newCartItem);
+            return cart[_userAddress];
+    }
+
+    function getWineToCart( address _userAddress, WineCart memory newCartItem, uint _cart_item_id) public
+    returns (WineCart[] memory, uint)
+    {
+            newCartItem.wineid = _cart_item_id;
+            newCartItem.wineprice = wines[_cart_item_id].vin_Price;
+
+            subtotal[_userAddress] += newCartItem.wineprice;
+            cart[_userAddress].push(newCartItem);
+
+            return (cart[_userAddress], subtotal[_userAddress]);
+    }
+
     //Functions -
     function  addWineItem(string memory _name, string memory _des, uint _price, uint _qty) private returns (bool){
         if(wineCount < 10){
-                wineCount++;
-        wines[wineCount] = WineList(wineCount, _name, _des, _price, _qty);
-        return true;
+            wineCount++;
+            wines[wineCount] = WineList(wineCount, _name, _des, _price, _qty);
+            return true;
         }
         else{
             return false;
         }
-    } 
+    }
+
+    function getDeliveryDate() public pure returns (uint){
+        return 7;
+    }
 }

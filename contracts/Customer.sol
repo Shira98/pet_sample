@@ -6,48 +6,46 @@ import "./Ownable.sol";
 
 contract Customer is Ownable{
 
-    Shop shop;
-
+    Shop shop  = new Shop();
+    address newCart ;
+    uint subtotal;
     //@dev Event triggers after new item added to cart
     event addItemToCartEvent(string name, uint price, uint subtotal, uint cartItemsCount);
-    event checkoutEvent (uint subtotal);
+    event checkoutEvent (string name, string userAddress, address cart, uint subtotal, uint payment, uint deliveryDate);
 
     constructor () public {
-
+         newCart = shop.getWineCart(msg.sender);
     }
 
+    uint public cartitemCount;
+
     function addToCart(uint _cart_item_id) public  returns (bool){
-        if(shop.cartitemCount<2){
-            shop.cartitemCount++;
-            //var newCartItem = cart[_cust];
-            shop.WineCart memory newCartItem;
-            name = wines[_cart_item_id].vin_Name;
-            price = wines[_cart_item_id].vin_Price;
-            newCartItem.wineid = _cart_item_id;
-            newCartItem.wineprice = wines[_cart_item_id].vin_Price;
-            subtotal[msg.sender] += newCartItem.wineprice;
-            cart[msg.sender].push(newCartItem);
+        if(cartitemCount<2){
 
-            emit addItemToCartEvent(name,price,subtotal[msg.sender],cartitemCount);
+            cartitemCount++;
+            (newCart[], subtotal) = shop.getWineToCart(msg.sender,  newCart, _cart_item_id);
 
+            string memory name = newCart.vin_Name;
+            uint price = newCart.vin_Price;
+
+            emit addItemToCartEvent(name,price,subtotal,cartitemCount);
             return true;
         }
         else
             return false;
     }
 
-    function CheckOutCart() public payable {
+     //Customer cart delete item
 
-        //wines[id].inv_Qty--  cart[address][x].
-        //require(msg.value == subtotal[msg.sender]);
-        //balance[msg.sender] += msg.value;
-    //    subtotal[msg.sender] = 0;
 
-        emit checkoutEvent (subtotal[msg.sender]);
+    function CheckOutCart(string memory user_name, string memory userAddress, uint payment_method) public {
+        //Add new_subtotal = discount() to this function -
+        uint delivery_date = shop.getDeliveryDate();
+        emit checkoutEvent (user_name, userAddress, newCart,subtotal, payment_method, delivery_date);
     }
 
     function emptyCart() public {
-        delete cart[msg.sender];
-        subtotal[msg.sender] = 0;
+        delete newCart;
+        subtotal = 0;
     }
 }
