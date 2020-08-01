@@ -12,7 +12,7 @@
  
  - Can add item to cart.
  - Can checkout/pay.
- - Can delete item from cart.
+ - Can delete item from cart. 
  
  ### Shop:
  
@@ -24,4 +24,4 @@
  ### Shipping:
  
  - Can update status.
- 
+  

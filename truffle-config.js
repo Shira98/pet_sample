@@ -54,7 +54,9 @@ module.exports = {
     ganache: {
 			provider: function() {
 				var mnemonic = "tackle apart prosper profit large effort moon rule unit ethics word piece";//put ETH wallet 12 mnemonic code	
+ 
 				return new HDWalletProvider(mnemonic, "HTTP://127.0.0.1:7550");
+ 
 			  },
 			  network_id: '5777', 
 			 }  

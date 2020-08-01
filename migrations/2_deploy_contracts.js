@@ -1,4 +1,5 @@
 var Shop = artifacts.require("./Shop");
+ 
 var Customer = artifacts.require("./Customer");
 
 // module.exports = function(deployer) {
@@ -13,3 +14,4 @@ module.exports = function(deployer) {
         return deployer.deploy(Customer, Shop.address)
 });
 };  
+ 

@@ -3,7 +3,8 @@ pragma solidity >=0.4.21 <0.7.0;
 pragma experimental ABIEncoderV2;
 
 contract Shop{
-     
+ 
+      
     //Data Structure -
     //@dev creating a struct for wine inventory
     struct WineList{
@@ -13,6 +14,7 @@ contract Shop{
         uint vin_Price;
         uint inv_Qty;
     }
+ 
 
     //@dev temporary invoice struct
     // struct Invoice{
@@ -23,6 +25,7 @@ contract Shop{
     // }
 
     //Mapping -
+ 
     WineList[6] public wines;
     address storeStaff;
     uint public wineCount;
@@ -65,3 +68,4 @@ contract Shop{
         //Delete the item completely if inv_Qty = 0;
     }
 }
+ 
