@@ -79,6 +79,7 @@ contract Store{
         storeStaff = msg.sender;
 
         //@dev List of Items available in the shop:
+        //addItem("item name", "item description", 1, 1000);
         
     }
 
