@@ -3,23 +3,25 @@
 ## Users/Contracts -
 
  - Customer
- - Shop
+ - Store
+ - Shipping
  
- ## Functionalities -
+ ## Main Functionalities -
  
  ### Customer:
  
  - Can add item to cart.
  - Can checkout/pay.
- - Can delete item from the cart.
+ - Can delete item from cart. 
  
  ### Shop:
  
  - Can add a wine bottle into the shop.
- - Can create new carts for customers.
+ - Can provide wine details to customers.
  - Can provide a cutomer order's delivery date.
- - Delete an item from the shop.
+ - Remove an item from the shop.
  
  ### Shipping:
  
- - 
+ - Can update status.
+  

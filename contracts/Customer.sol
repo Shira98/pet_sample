@@ -1,51 +1,62 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.21 <0.7.0;
+ 
+pragma experimental ABIEncoderV2;
+ 
+import "./Shop.sol"; 
 
-import "./Shop.sol";
-import "./Ownable.sol";
+contract Customer{
 
-contract Customer is Ownable{
+    address customer;
+    Shop shop;
 
-    Shop shop  = new Shop();
-    address newCart ;
-    uint subtotal;
-    //@dev Event triggers after new item added to cart
-    event addItemToCartEvent(string name, uint price, uint subtotal, uint cartItemsCount);
-    event checkoutEvent (string name, string userAddress, address cart, uint subtotal, uint payment, uint deliveryDate);
-
-    constructor () public {
-         newCart = shop.getWineCart(msg.sender);
+    //@dev modifer allowing only owner of contract
+    constructor(address _shopContractAddress) public {
+        customer = msg.sender;
+        shop = Shop(_shopContractAddress);
     }
 
-    uint public cartitemCount;
+    //@dev temporary cart struct
+    struct WineCart{
+        uint wineId;
+        uint wineQuantity;
+        uint winePrice;
+        uint subTotal;
+    }
+ 
+    mapping(address => WineCart[]) public cart; 
 
-    function addToCart(uint _cart_item_id) public  returns (bool){
-        if(cartitemCount<2){
+    //Variable's declaration -
+    mapping(address => uint) public cartItemCount; 
+ 
+    function addToCart(uint _wine_item_id) public payable { 
+        cartItemCount[customer]++;
+        WineCart memory newCartItem;
 
-            cartitemCount++;
-            (newCart[], subtotal) = shop.getWineToCart(msg.sender,  newCart, _cart_item_id);
+        (uint winePrice, uint wineQty) = shop.getWines(_wine_item_id);
 
-            string memory name = newCart.vin_Name;
-            uint price = newCart.vin_Price;
-
-            emit addItemToCartEvent(name,price,subtotal,cartitemCount);
-            return true;
-        }
-        else
-            return false;
+        newCartItem.wineId = _wine_item_id;
+        newCartItem.winePrice = winePrice;
+        newCartItem.wineQuantity = wineQty;
+        newCartItem.subTotal += newCartItem.winePrice;
+        cart[customer].push(newCartItem);  
     }
 
-     //Customer cart delete item
-
-
-    function CheckOutCart(string memory user_name, string memory userAddress, uint payment_method) public {
-        //Add new_subtotal = discount() to this function -
-        uint delivery_date = shop.getDeliveryDate();
-        emit checkoutEvent (user_name, userAddress, newCart,subtotal, payment_method, delivery_date);
-    }
+     //Customer cart delete item func.
+ 
+    // function CheckOutCart(string memory _user_name, string memory _user_address, uint _payment_method) public  {
+    //     //Add new_subtotal = discount() to this function ~
+    //     uint delivery_date = shop.getDeliveryDate();
+    //     //Remove the wine from shop by ID ~
+    // }
 
     function emptyCart() public {
-        delete newCart;
-        subtotal = 0;
+        delete cart[customer];  
+        cartItemCount[customer] = 0;
+    }
+    
+    function getCart() public view returns (WineCart[] memory){
+        return cart[customer];
     }
 }
+ 
