@@ -79,14 +79,7 @@ contract Store{
         storeStaff = msg.sender;
 
         //@dev List of Items available in the shop:
-        addItem("Little Giant Leveler Aluminum ", "18-ft Reach Type 1A - 300 lbs. Capacity Telescoping Multi-Position Ladder",2,1000);
-        addItem("Metabo HPT (was Hitachi Power Tools)", "3-in 21-Degree Pneumatic Framing Nails (1000-Count)",2,1500);
-        addItem("NETGEAR", "Range Extender 2.4 802.11n Smart Wireless Router",2,2000);
-        addItem("DELLA TORRE", "Cementina Black and White 8-in x 8-in Glazed Ceramic Encaustic Tile",1,2000);
-        addItem("Kichler", "Angelica 13-in Polished Nickel Modern/Contemporary Incandescent Semi-flush Mount Light",2,1000);
-        addItem("Transolid", "Radius 33-in x 22-in Black Single Bowl Drop-In 1-Hole Residential Kitchen Sink All-in-One Kit",2,1500);
-        addItem("IRWIN", "All-Purpose SAE 13-Pack Tap and Drill Se",2,2000);
-        addItem("Freedom", "Ready-to-Assemble Everton 6-ft H x 6-ft W White Vinyl Flat-Top Vinyl Fence Panel",1,2000);
+        
     }
 
     function setReleased() public {
